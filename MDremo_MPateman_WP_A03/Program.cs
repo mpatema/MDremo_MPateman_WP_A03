@@ -7,6 +7,8 @@ namespace MDremo_MPateman_WP_A03
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
+            Console.WriteLine("This thing sucks...");
+
         }
     }
 }
