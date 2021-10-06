@@ -10,19 +10,20 @@ namespace MDremo_MPateman_WP_A03
     {
         static void Main(string[] args)
         {
-            string fp = @"C:\temp\sampleText.txt";
+            string fp = @"C:\temp\output.txt";
             StreamReader sr = new StreamReader(fp);
             string line = null;
-            string[] tempWords;
+            string[] tempWords = new string[] { };
             Stopwatch sw = new Stopwatch();
-                   
-            List<string> wordList = new List<string>();
 
+            List<string> tempWordList = new List<string>();
+            List<string> wordList = new List<string>();
+            
             while (!sr.EndOfStream)
             {
                 line = sr.ReadLine();
                 line.Trim();
-                tempWords = line.Split(' ','"',StringSplitOptions.RemoveEmptyEntries);
+                tempWords = line.Split(' ', '"', StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < tempWords.Length; i++)
                 {
                     if (tempWords[i].StartsWith('"'))
@@ -33,13 +34,24 @@ namespace MDremo_MPateman_WP_A03
                     {
                         tempWords[i] = tempWords[i].TrimEnd('"');
                     }
-                    sw.Start();
-                    wordList.Add(tempWords[i]);                                                 
+                    tempWordList.Add(tempWords[i]);
                 }
             }
-            //wordList.Sort();
+            sr.Close(); //close the file we read from
+            
+            //measure the time it takes to move the elements from the temp list to the main list
+            sw.Start();
+            foreach (string tmpStr in tempWordList)
+            {                
+                wordList.Add(tmpStr);
+            }
             sw.Stop();
-            sr.Close();
+            Console.WriteLine($"Execution time  {sw.ElapsedMilliseconds}ms");
+
+            //measure the time it takes to sort the elements in the list
+            sw.Start();        
+            wordList.Sort();
+            sw.Stop();
             Console.WriteLine($"Execution time  {sw.ElapsedMilliseconds}ms");         
             Console.ReadLine();
         }
